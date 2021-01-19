@@ -8,7 +8,7 @@ import { Questionnaire } from './questionnaire';
   providedIn: 'root'
 })
 export class QuestionnairesService {
-  private tapVoteApi = 'http://localhost:5000';
+  private tapVoteApi = 'https://tap-vote-api.herokuapp.com';
 
   constructor(private http: HttpClient) {}
 
