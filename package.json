@@ -2,34 +2,59 @@
   "name": "tap-vote",
   "version": "0.0.0",
   "scripts": {
-    "ng": "ng",
-    "start": "ng serve",
-    "build": "ng build",
-    "test": "ng test",
+    "all-tests": "npm run lint && npm run test-headless && npm run e2e-headless",
+    "build": "ng build --aot --prod && npm run build-app-server",
+    "build-app-server": "tsc app-server.ts --outDir dist/",
+    "build-dev": "ng build && npm run build-app-server",
+    "dev": "ng serve",
+    "e2e": "ng e2e",
+    "e2e-headless": "ng e2e --protractor-config='e2e/ci.protractor.conf.js'",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "ng": "ng",
+    "prettier": "pretty-quick",
+    "start": "node dist/app-server.js",
+    "test": "ng test --codeCoverage=true --watch=false",
+    "test-headless": "ng test --codeCoverage=true --watch=false --browsers=ChromeHeadless"
   },
   "private": true,
   "dependencies": {
     "@angular/animations": "~11.0.9",
+    "@angular/cdk": "^11.0.4",
     "@angular/common": "~11.0.9",
     "@angular/compiler": "~11.0.9",
     "@angular/core": "~11.0.9",
     "@angular/forms": "~11.0.9",
+    "@angular/material": "^11.0.4",
     "@angular/platform-browser": "~11.0.9",
     "@angular/platform-browser-dynamic": "~11.0.9",
     "@angular/router": "~11.0.9",
+    "express": "^4.17.1",
     "rxjs": "~6.6.0",
     "tslib": "^2.0.0",
     "zone.js": "~0.10.2"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.1100.7",
+    "@angular-eslint/builder": "1.1.0",
+    "@angular-eslint/eslint-plugin": "1.1.0",
+    "@angular-eslint/eslint-plugin-template": "1.1.0",
+    "@angular-eslint/schematics": "1.1.0",
+    "@angular-eslint/template-parser": "1.1.0",
     "@angular/cli": "~11.0.7",
     "@angular/compiler-cli": "~11.0.9",
+    "@commitlint/cli": "^11.0.0",
+    "@commitlint/config-conventional": "^11.0.0",
+    "@types/express": "^4.17.11",
     "@types/jasmine": "~3.6.0",
     "@types/node": "^12.11.1",
+    "@typescript-eslint/eslint-plugin": "4.3.0",
+    "@typescript-eslint/parser": "4.3.0",
     "codelyzer": "^6.0.0",
+    "eslint": "^7.6.0",
+    "eslint-plugin-import": "2.22.1",
+    "eslint-plugin-jsdoc": "30.7.6",
+    "eslint-plugin-prefer-arrow": "1.2.2",
+    "husky": "^4.3.8",
     "jasmine-core": "~3.6.0",
     "jasmine-spec-reporter": "~5.0.0",
     "karma": "~5.1.0",
@@ -37,9 +62,26 @@
     "karma-coverage": "~2.0.3",
     "karma-jasmine": "~4.0.0",
     "karma-jasmine-html-reporter": "^1.5.0",
+    "prettier": "^2.2.1",
+    "pretty-quick": "^3.1.0",
     "protractor": "~7.0.0",
     "ts-node": "~8.3.0",
     "tslint": "~6.1.0",
     "typescript": "~4.0.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/blaise2s/tap-vote.git"
+  },
+  "author": "Blaise Schaeffer",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/blaise2s/tap-vote/issues"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "pretty-quick --staged",
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
   }
 }

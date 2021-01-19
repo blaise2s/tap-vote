@@ -1,0 +1,60 @@
+// src/app/questionnaires/questionnaires.component.scss
+
+.questionnaires {
+  height: calc(100vh - 5rem - 1rem);
+  width: 100%;
+  overflow: scroll;
+}
+
+// mat-drawer {
+//   width: 10rem;
+// }
+
+.open-drawer {
+  position: fixed;
+}
+
+.questionnaire {
+  padding: 2rem 4rem 2rem 4rem;
+
+  .questionnaire-name {
+    font-size: 1.5rem;
+    text-align: center;
+    padding-bottom: 2rem;
+  }
+
+  .section-name {
+    font-size: 1.25rem;
+    padding-bottom: 1rem;
+  }
+
+  .questions {
+    padding-bottom: 2rem;
+  }
+
+  .question {
+    padding-bottom: 1rem;
+  }
+
+  .radio-options {
+    display: flex;
+    flex-direction: column;
+
+    > mat-radio-button {
+      &:not(:last-child) {
+        padding-bottom: 0.25rem;
+      }
+    }
+  }
+
+  .result {
+    color: red;
+    position: absolute;
+    padding-top: 0.5rem;
+    height: 1rem;
+
+    &[correct] {
+      color: green;
+    }
+  }
+}

@@ -1,0 +1,10 @@
+# .travis.yml
+
+language: node_js
+node_js:
+  - node
+addons:
+  chrome: stable
+script:
+  - npm run all-tests
+  - npm run build

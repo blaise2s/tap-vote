@@ -1,0 +1,72 @@
+<!-- src/app/questionnaires/questionnaires.component.html -->
+<mat-drawer-container
+  class="questionnaires"
+  [hasBackdrop]="hasBackdrop"
+  autosize
+>
+  <mat-drawer #drawer [mode]="matDrawerMode">
+    <mat-selection-list role="list" [multiple]="false">
+      <mat-list-option
+        role="listitem"
+        *ngFor="let questionnaire of questionnaires"
+        [selected]="questionnaire.id === selectedQuestionnaire.id"
+        [value]="questionnaire.name"
+        (click)="onSelectQuestionnaire(questionnaire)"
+      >
+        {{ questionnaire.name }}
+      </mat-list-option>
+    </mat-selection-list>
+  </mat-drawer>
+  <mat-drawer-content>
+    <button class="open-drawer" mat-icon-button (click)="drawer.toggle()">
+      <mat-icon>double_arrow</mat-icon>
+    </button>
+    <div class="questionnaire" *ngIf="selectedQuestionnaire.id">
+      <div class="questionnaire-name">{{ selectedQuestionnaire.name }}</div>
+      <div
+        class="sections"
+        *ngFor="let section of selectedQuestionnaire.sections"
+      >
+        <mat-card>
+          <div class="section-name">{{ section.name }}</div>
+          <div class="questions" *ngFor="let question of section.questions">
+            <div class="question">{{ question.question }}</div>
+            <div
+              class="multiple-choice-multiple-response"
+              *ngIf="
+                question.type === questionType.multipleChoiceMultipleResponse
+              "
+            >
+              <div class="options" *ngFor="let option of question.options">
+                <mat-checkbox color="primary">{{ option }}</mat-checkbox>
+              </div>
+            </div>
+            <div
+              class="multiple-choice-multiple-response"
+              *ngIf="
+                question.type === questionType.multipleChoiceSingleResponse
+              "
+            >
+              <mat-radio-group class="radio-options">
+                <mat-radio-button
+                  *ngFor="let option of question.options"
+                  [value]="option"
+                  color="primary"
+                  >{{ option }}</mat-radio-button
+                >
+              </mat-radio-group>
+            </div>
+            <div class="result" *ngIf="showAnswer" correct>
+              {{ question.answers }}
+            </div>
+          </div>
+          <mat-card-actions>
+            <button mat-button color="accent" (click)="onCheckAnswer()">
+              CHECK
+            </button>
+          </mat-card-actions>
+        </mat-card>
+      </div>
+    </div>
+  </mat-drawer-content>
+</mat-drawer-container>
