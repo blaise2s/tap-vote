@@ -6,9 +6,9 @@
   overflow: scroll;
 }
 
-// mat-drawer {
-//   width: 10rem;
-// }
+mat-drawer {
+  min-width: 15rem;
+}
 
 .open-drawer {
   position: fixed;

@@ -11,8 +11,9 @@
     "e2e-headless": "ng e2e --protractor-config='e2e/ci.protractor.conf.js'",
     "lint": "ng lint",
     "ng": "ng",
+    "ping": "curl https://tap-vote-api.herokuapp.com/ping",
     "prettier": "pretty-quick",
-    "start": "node dist/app-server.js",
+    "start": "npm run ping & node dist/app-server.js",
     "test": "ng test --codeCoverage=true --watch=false",
     "test-headless": "ng test --codeCoverage=true --watch=false --browsers=ChromeHeadless"
   },
