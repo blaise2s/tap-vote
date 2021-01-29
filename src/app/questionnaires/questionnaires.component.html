@@ -21,52 +21,65 @@
     <button class="open-drawer" mat-icon-button (click)="drawer.toggle()">
       <mat-icon>double_arrow</mat-icon>
     </button>
-    <div class="questionnaire" *ngIf="selectedQuestionnaire.id">
+    <div class="loading" *ngIf="loading">
+      <mat-spinner></mat-spinner>
+    </div>
+    <div class="questionnaire" *ngIf="!loading && selectedQuestionnaire.id">
       <div class="questionnaire-name">{{ selectedQuestionnaire.name }}</div>
-      <div
-        class="sections"
-        *ngFor="let section of selectedQuestionnaire.sections"
-      >
-        <mat-card>
-          <div class="section-name">{{ section.name }}</div>
-          <div class="questions" *ngFor="let question of section.questions">
-            <div class="question">{{ question.question }}</div>
-            <div
-              class="multiple-choice-multiple-response"
-              *ngIf="
-                question.type === questionType.multipleChoiceMultipleResponse
-              "
-            >
-              <div class="options" *ngFor="let option of question.options">
-                <mat-checkbox color="primary">{{ option }}</mat-checkbox>
+      <div class="sections">
+        <div
+          class="section"
+          *ngFor="let section of selectedQuestionnaire.sections; let i = index"
+        >
+          <mat-card>
+            <div class="section-name">{{ section.name }}</div>
+            <div class="questions" *ngFor="let question of section.questions">
+              <div class="question">{{ question.question }}</div>
+              <div
+                class="multiple-choice-multiple-response"
+                *ngIf="
+                  question.type === questionType.multipleChoiceMultipleResponse
+                "
+              >
+                <div class="options" *ngFor="let option of question.options">
+                  <mat-checkbox color="primary">{{ option }}</mat-checkbox>
+                </div>
+              </div>
+              <div
+                class="multiple-choice-multiple-response"
+                *ngIf="
+                  question.type === questionType.multipleChoiceSingleResponse
+                "
+              >
+                <mat-radio-group class="radio-options">
+                  <mat-radio-button
+                    *ngFor="let option of question.options"
+                    [value]="option"
+                    color="primary"
+                    >{{ option }}
+                  </mat-radio-button>
+                </mat-radio-group>
+              </div>
+              <div class="result" *ngIf="showAnswer[i]" correct>
+                {{ question.answers }}
               </div>
             </div>
-            <div
-              class="multiple-choice-multiple-response"
-              *ngIf="
-                question.type === questionType.multipleChoiceSingleResponse
-              "
-            >
-              <mat-radio-group class="radio-options">
-                <mat-radio-button
-                  *ngFor="let option of question.options"
-                  [value]="option"
-                  color="primary"
-                  >{{ option }}</mat-radio-button
-                >
-              </mat-radio-group>
-            </div>
-            <div class="result" *ngIf="showAnswer" correct>
-              {{ question.answers }}
-            </div>
-          </div>
-          <mat-card-actions>
-            <button mat-button color="accent" (click)="onCheckAnswer()">
-              CHECK
-            </button>
-          </mat-card-actions>
-        </mat-card>
+            <mat-card-actions>
+              <button mat-button color="accent" (click)="onCheckAnswer(i)">
+                CHECK
+              </button>
+            </mat-card-actions>
+          </mat-card>
+        </div>
       </div>
+    </div>
+    <div class="questionnaire-actions">
+      <button mat-button color="primary" (click)="onCheckAllAnswers()">
+        CHECK ALL
+      </button>
+      <button mat-button color="primary" (click)="onResetAllAnswers()">
+        RESET
+      </button>
     </div>
   </mat-drawer-content>
 </mat-drawer-container>

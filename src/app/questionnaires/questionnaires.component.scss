@@ -14,8 +14,22 @@ mat-drawer {
   position: fixed;
 }
 
+.questionnaire-actions {
+  position: fixed;
+  bottom: 1rem;
+  right: 1rem;
+}
+
+.loading {
+  width: 100%;
+  height: calc(100vh - 5rem - 1rem);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .questionnaire {
-  padding: 2rem 4rem 2rem 4rem;
+  padding: 2rem 2rem 2rem 2rem;
 
   .questionnaire-name {
     font-size: 1.5rem;
@@ -23,17 +37,30 @@ mat-drawer {
     padding-bottom: 2rem;
   }
 
+  .sections {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .section {
+    width: 20rem;
+    padding: 0 1rem 1rem 1rem;
+  }
+
   .section-name {
     font-size: 1.25rem;
-    padding-bottom: 1rem;
+    padding-bottom: 0.5rem;
   }
 
   .questions {
+    padding-top: 0.5rem;
     padding-bottom: 2rem;
   }
 
   .question {
-    padding-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    font-weight: bold;
   }
 
   .radio-options {
@@ -51,7 +78,6 @@ mat-drawer {
     color: red;
     position: absolute;
     padding-top: 0.5rem;
-    height: 1rem;
 
     &[correct] {
       color: green;

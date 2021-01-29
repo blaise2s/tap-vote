@@ -13,12 +13,13 @@ import { QuestionnairesService } from './questionnaires.service';
   styleUrls: ['./questionnaires.component.scss']
 })
 export class QuestionnairesComponent implements OnInit {
+  loading = true;
   hasBackdrop = true;
   matDrawerMode: MatDrawerMode = 'over';
   questionnaires: Questionnaire[] = [];
   selectedQuestionnaire: Questionnaire = new Questionnaire();
   questionType = QuestionType;
-  showAnswer = false;
+  showAnswer: boolean[] = [];
 
   private subs = new Subscription();
 
@@ -26,20 +27,41 @@ export class QuestionnairesComponent implements OnInit {
 
   ngOnInit(): void {
     this.subs.add(
-      this.questionnairesService.get().subscribe((questionnaires) => {
-        this.questionnaires = questionnaires;
-        if (this.questionnaires.length > 0 && this.questionnaires[0].id) {
-          this.selectedQuestionnaire = this.questionnaires[0];
+      this.questionnairesService.get().subscribe(
+        (questionnaires) => {
+          this.questionnaires = questionnaires;
+          this.loading = false;
+          if (this.questionnaires.length > 0 && this.questionnaires[0].id) {
+            this.onNewQuestionnaire(this.questionnaires[0]);
+          }
+        },
+        () => {
+          this.loading = false;
         }
-      })
+      )
     );
   }
 
   onSelectQuestionnaire(selectedQuestionnaire: Questionnaire): void {
-    this.selectedQuestionnaire = selectedQuestionnaire;
+    if (selectedQuestionnaire.id !== this.selectedQuestionnaire.id) {
+      this.onNewQuestionnaire(selectedQuestionnaire);
+    }
   }
 
-  onCheckAnswer(): void {
-    this.showAnswer = !this.showAnswer;
+  onCheckAnswer(idx: number): void {
+    this.showAnswer[idx] = true;
+  }
+
+  onCheckAllAnswers(): void {
+    this.showAnswer = this.showAnswer.map(() => true);
+  }
+
+  onResetAllAnswers(): void {
+    this.showAnswer = this.showAnswer.map(() => false);
+  }
+
+  private onNewQuestionnaire(questionnaire: Questionnaire): void {
+    this.selectedQuestionnaire = questionnaire;
+    this.showAnswer = this.selectedQuestionnaire.sections.map(() => false);
   }
 }
